@@ -1,0 +1,172 @@
+<!-- {% load mathfilters %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- {% comment %} tailwin css cdn {% endcomment %} -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- {% comment %} boostrap icon cdn {% endcomment %} -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <title>Fuel Pass</title>
+    <style>
+        .navbar{
+            justify-content: space-between;
+        }
+        .body{
+            margin-top: 50px;
+            margin-left: 150px;
+            margin-right: 150px;
+        }
+        .body>.header{
+            display: flex;
+        }
+        .body>.header>i{
+            margin-right: 10px;
+        }
+        .body>.details{
+            margin-top: 70px;
+            text-transform: uppercase;
+            display: flex;
+        }
+        .body>.details>.left-details{
+            margin-right: 300px;
+        }
+        .body>.details>.left-details>h2{
+            margin-bottom: 30px;
+        }
+        .body>.details>.right-details>h2{
+            margin-bottom: 30px;
+        }
+        .secondary-details{
+            margin-top: 70px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .cards-container{
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+        }
+        .secondary-details>.cards-container>.card{
+            width: 300px;
+            height: 200px;
+            border-radius: 15px;
+        }
+        .secondary-details>.cards-container>.card>i{
+            color: white;
+            font-size: 30px;
+            margin-left: 20px;
+            margin-left: 20px;
+        }
+        .secondary-details>.cards-container>.card>h2{
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+        .secondary-details>.cards-container>.card>.litre{
+            margin-top: 20px;
+        }
+        .secondary-details>.price-details{
+            width: 30%;
+            padding-left: 100px;
+        }
+        .secondary-details>.price-details>h1{
+            margin-top:  10px;
+            margin-bottom:  20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="bg-pink-900 pb-4 pt-2  flex  navbar">
+            <h1 class="text-white text-2xl ml-8  "  >Automatic Fuel Management System</h1>
+            <div class="hidden md:flex">
+                <a class="text-white mr-8" href="{% url 'logout' %}">Logout</a>
+            </div>
+            <div class="menu md:hidden mr-8">
+                <i class="bi bi-list text-white text-2xl " id="menu-btn"></i>
+            </div>
+        
+        </div>
+        <ul class="bg-pink-900 pb-4 pt-8 hidden h-48" id="nav-items">
+            <li class="text-white ml-8"><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    
+    <div  class="body">
+        <!-- <div>
+        <h1 class="text-5xl text-bold mb-8">National Fuel Pass</h1></br>
+        <h1 class="text-xl">FullName: {{user.first_name}} {{user.last_name}}</h1>
+        <h1 class="text-xl">Vechicle Number: {{user.vechicle_no}}</h1>
+        <h1 class="text-xl">Vechicle Type: {{vechicleType.name}}</h1>
+        <h1 class="text-xl">Weekly Quota: {{vechicleType.quota_limit}}</h1>
+        <h1 class="text-xl">Available Quota: {{vechicleType.quota_limit |sub:user.quota_used}}</h1>
+        </div> -->
+        <div class="header">
+            <i class="bi bi-person-square text-3xl text-gray-700" ></i><h2 class="text-3xl text-gray-700">Hello Lakshan!</h2>
+        </div>
+
+        <div class="details">
+
+            <div class="left-details">
+                <h2 class="text-2xl text-gray-600">Vechicle Number: <span class="text-pink-700">YF-9534</span></h2>
+                <h2 class="text-2xl text-gray-600">Vechicle Type: <span class="text-pink-700">Two Wheeler</span></h2>
+            </div>
+
+            <div class="right-details">
+                <h2 class="text-2xl text-gray-600">Owner Name: <span class="text-pink-700">Shanthakumar Lakshan</span></h2>
+                <h2 class="text-2xl text-gray-600">Fuel Type: <span class="text-pink-700">Petrol</span></h2>
+            </div>
+            
+        </div>
+
+        <div class="secondary-details">
+            <div class="cards-container">
+
+                <div class="card bg-pink-900">
+                    <i class="bi bi-calendar2-week"></i>
+                    <h2 class="text-white text-2xl">Weekly Quota</h2>
+                    <h2 class="text-white text-5xl litre">4.00 L</h2>
+                </div>
+                <div class="card bg-blue-700">
+                    <i class="bi bi-tags"></i>
+                    <h2 class="text-white text-2xl">Used Quota</h2>
+                    <h2 class="text-white text-5xl litre">2.7 L</h2>
+                </div>
+                <div class="card bg-gray-500">
+                    <i class="bi bi-wallet"></i>
+                    <h2 class="text-white text-2xl">Available Quota</h2>
+                    <h2 class="text-white text-5xl litre">3.0 L</h2>
+                </div>
+
+            </div>
+
+            <div class="price-details">
+                <h2 class="text-gray-700 text-2xl">Price Per  Litre</h2>
+                <h1 class="text-3xl text-pink-700">Rs  137.00</h1>
+                <h2 class="text-gray-700 text-2xl">Spent Amount</h2>
+                <h1 class="text-3xl text-pink-700">Rs 4600.00</h1>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <script>
+        const menu_btn=document.getElementById("menu-btn")
+        const nav_items=document.getElementById("nav-items")
+    
+        menu_btn.addEventListener("click", function(){
+            nav_items.classList.toggle("hidden")
+        })
+    
+    
+    
+    </script>
+</body>
+</html>
