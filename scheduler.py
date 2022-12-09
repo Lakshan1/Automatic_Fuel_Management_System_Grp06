@@ -6,7 +6,7 @@ def task():
     requests.get("https://automatic-fuel-management-system.onrender.com/api/refreshQuota/")
 
 
-schedule.every(5).minutes.do(task)
+schedule.every().monday.at("00.00").do(task)
 
 while True:
     schedule.run_pending()
