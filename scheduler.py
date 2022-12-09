@@ -2,6 +2,7 @@ import schedule
 import requests
 
 def task():
+    print("working")
     requests.get("https://automatic-fuel-management-system.onrender.com/api/refreshQuota/")
 
 
