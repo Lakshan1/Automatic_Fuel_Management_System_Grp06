@@ -10,6 +10,7 @@ import threading
 import cv2
 
 from localStoragePy import localStoragePy
+import sys
 
 localStorage = localStoragePy('AFMS', 'sqlite')
 
@@ -93,6 +94,11 @@ def getVechicleDetails():
             btnUpdate.configure(state="normal")
         quotaUpdateSlider.set(0)
 
+def call_getVechicleDetails():
+    thread = threading.Thread(target=getVechicleDetails)
+    thread.daemon = True
+    thread.start()
+
 def updateSliderEvent(value):
     global updatefuelamount
     updatefuelamount = int(value)
@@ -113,31 +119,74 @@ def updateFuel():
             quotaUpdateSlider.set(0)
         lblupdateAmount.configure(text="0")
         availableQuota = localavailablequota-updatefuelamount
+
+def call_updateFuel():
+    thread = threading.Thread(target=updateFuel)
+    thread.daemon = True
+    thread.start()
         
-def update_frame():
-    # Read the next frame from the webcam
-    _, frame = video_capture.read()
+def update_frame_1():
 
-    # Convert the frame to a PhotoImage object
-    frame = Image.fromarray(frame)
-    # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    image = ImageTk.PhotoImage(image=frame)
+    while True:
+        # Read the next frame from the webcam
+        _, frame = video_capture_1.read()
 
-    # Update the label with the new image
-    imagelabel.configure(image=image)
-    imagelabel.image = image
-    # imagelabel2.configure(image=image)
-    # imagelabel2.image = image
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Convert the frame to a PhotoImage object
+        frame = Image.fromarray(frame)
+        image = ImageTk.PhotoImage(image=frame)
+
+        # Update the label with the new image
+        imagelabel.configure(image=image)
+        imagelabel.image = image
+        # imagelabel2.configure(image=image)
+        # imagelabel2.image = image
+
+    #     if cv2.waitKey(1) & 0xFF == ord('q'):
+    #         break
+    #     if cv2.getWindowProperty('frame',1) == -1 :
+    #         break
+    # video_capture_1.release()
 
     # Schedule the next frame update
-    admin_window.after(15, update_frame())
+    admin_window.after(15, update_frame_1())
+
+def update_frame_2():
+
+    while True:
+        # Read the next frame from the webcam
+        _, frame = video_capture_2.read()
+
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Convert the frame to a PhotoImage object
+        frame = Image.fromarray(frame)
+        image = ImageTk.PhotoImage(image=frame)
+
+        # Update the label with the new image
+        imagelabel2.configure(image=image)
+        imagelabel2.image = image
+
+    # Schedule the next frame update
+    admin_window.after(15, update_frame_2())
+
+def close_window():
+    print("closing")
+    root.destroy()
 
 root = customtkinter.CTk()
 
+root.protocol("WM_DELETE_WINDOW",  lambda:close_window())
+
 #windows
 def mainWindow():
-    # global video_capture
-    # video_capture = cv2.VideoCapture(0)
+    # global video_capture_1
+    # video_capture_1 = cv2.VideoCapture(0)
+
+    # global video_capture_2
+    # video_capture_2 = cv2.VideoCapture(1)
+
     root.withdraw()
     global admin_window
     admin_window = customtkinter.CTkToplevel(root)
@@ -154,7 +203,7 @@ def mainWindow():
     txtVechicleNumberField = customtkinter.CTkEntry(master=frmLeftBar, placeholder_text="Enter Vechicle Number", height=40, width=300,)
     txtVechicleNumberField.place(x=20,y=20)
 
-    btnSearch = customtkinter.CTkButton(master=frmLeftBar, text="", width=50, height=40, image=search_logo, command=getVechicleDetails)
+    btnSearch = customtkinter.CTkButton(master=frmLeftBar, text="", width=50, height=40, image=search_logo, command=call_getVechicleDetails)
     btnSearch.place(x=330, y=20)
 
     lblFullname = customtkinter.CTkLabel(master=frmLeftBar, text="Full Name: ", font=("Roboto", 15))
@@ -221,7 +270,7 @@ def mainWindow():
     lblupdateAmount.pack(pady=(480,0))
 
     global btnUpdate
-    btnUpdate = customtkinter.CTkButton(master=frmLeftBar, width=350, height=40, text="Update Quota",state="disabled", command=updateFuel)
+    btnUpdate = customtkinter.CTkButton(master=frmLeftBar, width=350, height=40, text="Update Quota",state="disabled", command=call_updateFuel)
     btnUpdate.place(y=530, x=25)
 
     btnLogout = customtkinter.CTkButton(master=frmLeftBar, text="Logout", width=100, height=40, image=logout_logo, command=logout)
@@ -243,9 +292,13 @@ def mainWindow():
     imagelabel2 = customtkinter.CTkLabel(master=frmCam2)
     imagelabel2.pack()
 
-    # video_thread = threading.Thread(target=update_frame)
+    # video_thread_1 = threading.Thread(target=update_frame_1)
 
-    # video_thread.start()
+    # video_thread_1.start()
+
+    # video_thread_2 = threading.Thread(target=update_frame_2)
+
+    # video_thread_2.start()
 
 
     global txtProcessBox
