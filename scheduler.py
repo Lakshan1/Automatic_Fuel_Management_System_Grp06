@@ -6,7 +6,7 @@ def task():
     requests.get("https://auto-fuel-management-system.herokuapp.com/api/refreshQuota/")
 
 
-schedule.every(2).minutes.do(task)
+schedule.every(60).minutes.do(task)
 
 while True:
     schedule.run_pending()
