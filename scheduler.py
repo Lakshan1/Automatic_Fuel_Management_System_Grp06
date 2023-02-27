@@ -3,10 +3,10 @@ import requests
 
 def task():
     print("working")
-    requests.get("https://automatic-fuel-management-system.onrender.com/api/refreshQuota/")
+    requests.get("https://auto-fuel-management-system.herokuapp.com/api/refreshQuota/")
 
 
-schedule.every().monday.at("12.01").do(task)
+schedule.every(2).minutes.do(task)
 
 while True:
     schedule.run_pending()
